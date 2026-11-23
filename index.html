@@ -249,7 +249,8 @@
             /* Red color */
             border: 2.5px solid #ef5350;
             box-shadow: 0 4px 16px rgba(244, 67, 54, 0.15);
-            transition: left 0.05s, top 0.05s, font-size 0.4s cubic-bezier(.34, 1.56, .64, 1), opacity 0.3s, background 0.2s;
+            transition: left 0.45s cubic-bezier(.22, 1, .36, 1), top 0.45s cubic-bezier(.22, 1, .36, 1), font-size 0.5s cubic-bezier(.22, 1, .36, 1), transform 0.5s cubic-bezier(.22, 1, .36, 1), opacity 0.5s ease, background 0.2s;
+            will-change: left, top, transform, opacity;
             z-index: 20;
         }
         
@@ -389,10 +390,12 @@
             moveNoBtn();
             yesBtn.style.fontSize = getYesFontSize() + 'px';
             noBtn.style.fontSize = getNoFontSize() + 'px';
+            noBtn.style.transform = `scale(${Math.max(0, 1 - noCount * 0.11)})`;
+            noBtn.style.opacity = String(Math.max(0, 1 - noCount / 9));
+            noBtn.disabled = noCount >= 9;
             subText.textContent = noTexts[Math.min(noCount - 1, noTexts.length - 1)];
             subText.style.opacity = 1;
             triggerAnim('shake', 500);
-            if (noCount >= 5) noBtn.style.opacity = String(Math.max(0.3, 1 - (noCount - 4) * 0.12));
         }
 
         function handleYes() {
@@ -413,7 +416,9 @@
             placed = false;
             yesBtn.style.fontSize = '';
             noBtn.style.fontSize = '';
+            noBtn.style.transform = '';
             noBtn.style.opacity = '';
+            noBtn.disabled = false;
             noBtn.style.left = '';
             noBtn.style.top = '';
             noBtn.classList.remove('placed');
