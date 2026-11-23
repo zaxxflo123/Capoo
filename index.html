@@ -363,23 +363,17 @@
         }
 
         function moveNoBtn() {
-            const w = window.innerWidth,
-                h = window.innerHeight;
-            const bw = noBtn.offsetWidth,
-                bh = noBtn.offsetHeight,
-                m = 16;
-            let nx, ny, tries = 0;
-            do {
-                nx = m + Math.random() * (w - bw - m * 2);
-                ny = m + Math.random() * (h - bh - m * 2);
-            } while (++tries < 30 && isOverCard(nx, ny, bw, bh));
+            const card = document.querySelector('.card').getBoundingClientRect();
+            const bw = noBtn.offsetWidth;
+            const bh = noBtn.offsetHeight;
+            const margin = 12;
+            // .card's backdrop-filter makes it the containing block for this fixed button.
+            const maxX = Math.max(margin, card.width - bw - margin);
+            const maxY = Math.max(margin, card.height - bh - margin);
+            const nx = margin + Math.random() * (maxX - margin);
+            const ny = margin + Math.random() * (maxY - margin);
             noBtn.style.left = nx + 'px';
             noBtn.style.top = ny + 'px';
-        }
-
-        function isOverCard(x, y, bw, bh) {
-            const r = document.querySelector('.card').getBoundingClientRect();
-            return !(x + bw < r.left - 20 || x > r.right + 20 || y + bh < r.top - 20 || y > r.bottom + 20);
         }
 
         function triggerAnim(cls, ms) {
